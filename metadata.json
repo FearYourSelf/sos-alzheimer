@@ -1,0 +1,8 @@
+{
+  "name": "SOS Vovó",
+  "description": "A comprehensive guide and AI assistant for Alzheimer's caregivers in Belo Horizonte, featuring protocols, directories, legal info, and AI support.",
+  "requestFramePermissions": [
+    "geolocation",
+    "microphone"
+  ]
+}
