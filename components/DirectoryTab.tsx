@@ -4,7 +4,7 @@ import { Resource, GeoLocation, IWindow } from '../types';
 import { searchNearbyResources } from '../services/geminiService';
 import { useNotification } from '../context/NotificationContext';
 import ReactMarkdown from 'react-markdown';
-import { MapPin, Search, Loader2, Mic, MicOff, ExternalLink, X, Truck, Activity, Armchair } from 'lucide-react';
+import { MapPin, Search, Loader2, Mic, MicOff, ExternalLink, X, Truck, Activity, Armchair, Phone } from 'lucide-react';
 
 const initialResources: Resource[] = [
   // Type 1: New Data (BH Specifics)
@@ -137,6 +137,11 @@ const DirectoryTab: React.FC = () => {
     showNotification(`Telefone copiado: ${text}`);
   };
 
+  const openMapSearch = (resourceName: string) => {
+    const query = encodeURIComponent(`${resourceName} Belo Horizonte`);
+    window.open(`https://www.google.com/maps/search/${query}`, '_blank');
+  };
+
   const filters = [
     { id: 'all', label: 'Todos' },
     { id: 'medico', label: 'Médicos' },
@@ -190,6 +195,9 @@ const DirectoryTab: React.FC = () => {
            if(item.cat === 'transporte') { border = 'border-red-500'; icon = <Truck className="w-3 h-3 inline mr-1" />; }
            if(item.cat === 'fisio') { border = 'border-teal-500'; icon = <Activity className="w-3 h-3 inline mr-1" />; }
 
+           // Detect if phone field is an action (contains letters)
+           const isAction = /[a-zA-Z]/.test(item.phone);
+
            return (
             <div key={item.id} className={`bg-white dark:bg-slate-800 p-4 rounded-lg shadow-sm hover:shadow-md transition border-l-4 ${border} flex flex-col page-break-inside-avoid`}>
               <div className="mb-2">
@@ -199,12 +207,22 @@ const DirectoryTab: React.FC = () => {
                 <h4 className="font-bold text-lg text-slate-800 dark:text-white leading-tight">{item.name}</h4>
               </div>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">{item.desc}</p>
-              <button 
-                onClick={() => copyToClipboard(item.phone)} 
-                className="w-full py-2 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold rounded hover:bg-blue-50 dark:hover:bg-blue-900/30 transition text-sm border border-slate-200 dark:border-slate-600 active:scale-95 transform"
-              >
-                📞 {item.phone}
-              </button>
+              
+              {isAction ? (
+                <button 
+                    onClick={() => openMapSearch(item.name)}
+                    className="w-full py-2 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 font-bold rounded hover:bg-blue-200 dark:hover:bg-blue-900/60 transition text-sm border border-blue-200 dark:border-blue-800 active:scale-95 transform flex items-center justify-center gap-2"
+                >
+                    <MapPin className="w-4 h-4" /> {item.phone}
+                </button>
+              ) : (
+                <button 
+                    onClick={() => copyToClipboard(item.phone)} 
+                    className="w-full py-2 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold rounded hover:bg-blue-50 dark:hover:bg-blue-900/30 transition text-sm border border-slate-200 dark:border-slate-600 active:scale-95 transform flex items-center justify-center gap-2"
+                >
+                    <Phone className="w-4 h-4" /> {item.phone}
+                </button>
+              )}
             </div>
            );
         })}
