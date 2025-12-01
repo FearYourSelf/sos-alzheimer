@@ -25,7 +25,7 @@ const App: React.FC = () => {
 
   return (
     <NotificationProvider>
-      <div className="min-h-screen flex flex-col font-sans bg-[#fdfbf7] dark:bg-slate-900 text-slate-800 dark:text-slate-200 transition-colors duration-300">
+      <div className="min-h-screen flex flex-col font-sans bg-[#fdfbf7] dark:bg-slate-900 text-slate-800 dark:text-slate-200 transition-colors duration-300 pb-12">
         
         {/* Header - Pulsing only strictly on icon, less aggressive */}
         <header className="bg-red-800 text-white p-3 sticky top-0 z-50 shadow-xl flex justify-between items-center backdrop-blur-md bg-opacity-95 print:hidden">
@@ -116,6 +116,17 @@ const App: React.FC = () => {
           </div>
 
         </main>
+
+        {/* Footer */}
+        <footer className="fixed bottom-0 left-0 w-full p-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm border-t border-gray-200 dark:border-slate-800 text-center text-xs text-gray-500 dark:text-gray-400 flex justify-center items-center gap-1.5 z-50 print:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+           <span>Com amor, do Igor pra Vovó</span>
+           <Heart className="w-3 h-3 text-red-500 fill-current animate-pulse" />
+           <span className="opacity-50 mx-1">|</span>
+           <span>Powered by</span>
+           <a href="https://fearyour.life/" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-bold">
+             NSD-CORE/70B
+           </a>
+        </footer>
       </div>
     </NotificationProvider>
   );
