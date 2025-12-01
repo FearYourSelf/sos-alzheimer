@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { generateCrisisStrategy, draftFamilyMessage } from '../services/geminiService';
 import ReactMarkdown from 'react-markdown';
@@ -95,7 +96,7 @@ const AITab: React.FC = () => {
             value={msgInput}
             onChange={(e) => setMsgInput(e.target.value)}
             className="w-full p-3 border rounded-lg mb-3 text-sm focus:ring-2 focus:ring-green-500 h-24 bg-gray-50 dark:bg-slate-900 dark:border-slate-700"
-            placeholder="Ex: Preciso pedir que meus irmãos ajudem a pagar o cuidador noturno pois estou sem dormir há 3 dias..."
+            placeholder="Ex: Preciso pedir ajuda para pagar o cuidador noturno pois estamos sem dormir, dificultando os cuidados dela..."
           />
           
           <button 
