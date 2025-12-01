@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { ChartDataPoint } from '../types';
-import { Printer } from 'lucide-react';
+import { Printer, Check } from 'lucide-react';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -36,6 +36,11 @@ const agitationData: ChartDataPoint[] = [
 
 const ProtocolTab: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
+
+  const toggleCheck = (idx: number) => {
+    setCheckedItems(prev => ({ ...prev, [idx]: !prev[idx] }));
+  };
 
   const data = {
     labels: agitationData.map(d => d.label),
@@ -72,7 +77,7 @@ const ProtocolTab: React.FC = () => {
 
       <div className="grid lg:grid-cols-3 gap-6">
         
-        {/* Chart Section - Hidden on Print to save ink/space if preferred, or kept. Let's keep specific text */}
+        {/* Chart Section */}
         <div className="bg-white dark:bg-slate-800 rounded-xl shadow p-4 flex flex-col print:hidden">
           <h4 className="font-bold text-center mb-2 text-gray-700 dark:text-gray-200">
             Gatilhos da Agitação (Toque para ver)
@@ -96,7 +101,7 @@ const ProtocolTab: React.FC = () => {
           </div>
         </div>
 
-        {/* Checklist Section - The most important part for printing */}
+        {/* Checklist Section */}
         <div className="lg:col-span-2 space-y-4 print:col-span-3">
           <div className="bg-white dark:bg-slate-800 rounded-xl shadow p-6 print:shadow-none print:border print:border-black">
             <h3 className="text-xl font-bold mb-4 border-b pb-2 dark:border-slate-700">Checklist Rápido de Crise</h3>
@@ -109,9 +114,15 @@ const ProtocolTab: React.FC = () => {
                 { title: "2. Excreção (Banheiro)", sub: "Intestino preso (>3 dias) ou bexiga cheia?", color: "orange" },
                 { title: "3. Infecção (Febre/Urina)", sub: "Urina escura/cheiro forte ou febre baixa?", color: "purple" }
               ].map((item, idx) => (
-                <div key={idx} className={`flex items-start p-3 bg-${item.color}-50 dark:bg-${item.color}-900/20 border border-${item.color}-100 dark:border-${item.color}-900/30 rounded-lg print:border-black print:bg-white`}>
-                  <div className={`w-6 h-6 border-2 border-${item.color}-600 rounded mr-3 mt-1 flex-shrink-0 print:border-black`}></div>
-                  <div>
+                <div 
+                  key={idx} 
+                  onClick={() => toggleCheck(idx)}
+                  className={`flex items-start p-3 bg-${item.color}-50 dark:bg-${item.color}-900/20 border border-${item.color}-100 dark:border-${item.color}-900/30 rounded-lg cursor-pointer hover:bg-${item.color}-100 dark:hover:bg-${item.color}-900/40 transition print:border-black print:bg-white`}
+                >
+                  <div className={`w-6 h-6 border-2 border-${item.color}-600 rounded mr-3 mt-1 flex-shrink-0 flex items-center justify-center print:border-black ${checkedItems[idx] ? `bg-${item.color}-600` : 'bg-transparent'}`}>
+                    {checkedItems[idx] && <Check className="w-4 h-4 text-white print:text-black" />}
+                  </div>
+                  <div className={checkedItems[idx] ? 'opacity-50 line-through transition-opacity' : ''}>
                     <span className={`block font-bold text-${item.color}-900 dark:text-${item.color}-200 print:text-black`}>{item.title}</span>
                     <span className={`text-sm text-${item.color}-800 dark:text-${item.color}-300 print:text-black`}>{item.sub}</span>
                   </div>

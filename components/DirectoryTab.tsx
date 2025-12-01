@@ -4,7 +4,7 @@ import { Resource, GeoLocation, IWindow } from '../types';
 import { searchNearbyResources } from '../services/geminiService';
 import { useNotification } from '../context/NotificationContext';
 import ReactMarkdown from 'react-markdown';
-import { MapPin, Search, Loader2, Mic, MicOff, ExternalLink, X, Truck, Activity, Armchair, Phone } from 'lucide-react';
+import { MapPin, Search, Loader2, Mic, MicOff, ExternalLink, X, Truck, Activity, Armchair, Phone, ArrowLeft } from 'lucide-react';
 
 const initialResources: Resource[] = [
   // Type 1: New Data (BH Specifics)
@@ -195,7 +195,6 @@ const DirectoryTab: React.FC = () => {
            if(item.cat === 'transporte') { border = 'border-red-500'; icon = <Truck className="w-3 h-3 inline mr-1" />; }
            if(item.cat === 'fisio') { border = 'border-teal-500'; icon = <Activity className="w-3 h-3 inline mr-1" />; }
 
-           // Detect if phone field is an action (contains letters)
            const isAction = /[a-zA-Z]/.test(item.phone);
 
            return (
@@ -244,9 +243,9 @@ const DirectoryTab: React.FC = () => {
           {(aiSearchQuery || aiResult) && (
             <button 
               onClick={clearAiSearch}
-              className="text-xs flex items-center gap-1 text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 transition"
+              className="text-xs flex items-center gap-1 text-gray-600 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 transition font-bold bg-white/50 dark:bg-black/20 px-2 py-1 rounded"
             >
-              <X className="w-3 h-3" /> Limpar Busca
+              <ArrowLeft className="w-3 h-3" /> Voltar
             </button>
           )}
         </div>
